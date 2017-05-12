@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -18,7 +19,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import java.util.List;
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping( value = "/users",produces = MediaType.APPLICATION_JSON_VALUE)
 public class UserController {
     private final Logger LOG = LoggerFactory.getLogger(UserController.class);
 
@@ -42,7 +43,7 @@ public class UserController {
 
     // =========================================== Get User By ID =========================================
 
-    @RequestMapping(value = "{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "{id}", method = RequestMethod.GET  )
     public ResponseEntity<User> get(@PathVariable("id") int id) {
         LOG.info("getting user with id: {}", id);
         User user = userService.findById(id);
@@ -57,7 +58,7 @@ public class UserController {
 
     // =========================================== Create New User ========================================
 
-    @RequestMapping(method = RequestMethod.POST)
+    @RequestMapping(method = RequestMethod.POST )
     public ResponseEntity<Void> create(@RequestBody User user, UriComponentsBuilder ucBuilder) {
         LOG.info("creating new user: {}", user);
 

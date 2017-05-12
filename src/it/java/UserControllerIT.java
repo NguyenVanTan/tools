@@ -1,5 +1,3 @@
-package com.tannv.controler;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tannv.controller.UserController;
 import com.tannv.fillter.CORSFilter;

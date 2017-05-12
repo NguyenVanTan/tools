@@ -103,128 +103,128 @@ public class UserControllerUnitTest {
 
     // =========================================== Create New User ========================================
 
-    @Test
-    public void test_create_user_success() throws Exception {
-        User user = new User("Arya Stark");
-
-        when(userService.exists(user)).thenReturn(false);
-        doNothing().when(userService).create(user);
-
-        mockMvc.perform(
-                post("/users")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(asJsonString(user)))
-                .andExpect(status().isCreated())
-                .andExpect(header().string("location", containsString("http://localhost/users/")));
-
-        verify(userService, times(1)).exists(user);
-        verify(userService, times(1)).create(user);
-        verifyNoMoreInteractions(userService);
-    }
-
-    @Test
-    public void test_create_user_fail_409_conflict() throws Exception {
-        User user = new User("username exists");
-
-        when(userService.exists(user)).thenReturn(true);
-
-        mockMvc.perform(
-                post("/users")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(asJsonString(user)))
-                .andExpect(status().isConflict());
-
-        verify(userService, times(1)).exists(user);
-        verifyNoMoreInteractions(userService);
-    }
-
-    // =========================================== Update Existing User ===================================
-
-    @Test
-    public void test_update_user_success() throws Exception {
-        User user = new User(1, "Arya Stark");
-
-        when(userService.findById(user.getId())).thenReturn(user);
-        doNothing().when(userService).update(user);
-
-        mockMvc.perform(
-                put("/users/{id}", user.getId())
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(asJsonString(user)))
-                .andExpect(status().isOk());
-
-        verify(userService, times(1)).findById(user.getId());
-        verify(userService, times(1)).update(user);
-        verifyNoMoreInteractions(userService);
-    }
-
-    @Test
-    public void test_update_user_fail_404_not_found() throws Exception {
-        User user = new User(UNKNOWN_ID, "user not found");
-
-        when(userService.findById(user.getId())).thenReturn(null);
-
-        mockMvc.perform(
-                put("/users/{id}", user.getId())
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(asJsonString(user)))
-                .andExpect(status().isNotFound());
-
-        verify(userService, times(1)).findById(user.getId());
-        verifyNoMoreInteractions(userService);
-    }
-
-    // =========================================== Delete User ============================================
-
-    @Test
-    public void test_delete_user_success() throws Exception {
-        User user = new User(1, "Arya Stark");
-
-        when(userService.findById(user.getId())).thenReturn(user);
-        doNothing().when(userService).delete(user.getId());
-
-        mockMvc.perform(
-                delete("/users/{id}", user.getId()))
-                .andExpect(status().isOk());
-
-        verify(userService, times(1)).findById(user.getId());
-        verify(userService, times(1)).delete(user.getId());
-        verifyNoMoreInteractions(userService);
-    }
-
-    @Test
-    public void test_delete_user_fail_404_not_found() throws Exception {
-        User user = new User(UNKNOWN_ID, "user not found");
-
-        when(userService.findById(user.getId())).thenReturn(null);
-
-        mockMvc.perform(
-                delete("/users/{id}", user.getId()))
-                .andExpect(status().isNotFound());
-
-        verify(userService, times(1)).findById(user.getId());
-        verifyNoMoreInteractions(userService);
-    }
-
-    // =========================================== CORS Headers ===========================================
-
-    @Test
-    public void test_cors_headers() throws Exception {
-        mockMvc.perform(get("/users"))
-                .andExpect(header().string("Access-Control-Allow-Origin", "*"))
-                .andExpect(header().string("Access-Control-Allow-Methods", "POST, GET, PUT, OPTIONS, DELETE"))
-                .andExpect(header().string("Access-Control-Allow-Headers", "*"))
-                .andExpect(header().string("Access-Control-Max-Age", "3600"));
-    }
-
-    /*
-     * converts a Java object into JSON representation
-     */
-    public static String asJsonString(final Object obj) {
-        try {
-            return new ObjectMapper().writeValueAsString(obj);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
+//    @Test
+//    public void test_create_user_success() throws Exception {
+//        User user = new User("Arya Stark");
+//
+//        when(userService.exists(user)).thenReturn(false);
+//        doNothing().when(userService).create(user);
+//
+//        mockMvc.perform(
+//                post("/users")
+//                        .contentType(MediaType.APPLICATION_JSON)
+//                        .content(asJsonString(user)))
+//                .andExpect(status().isCreated())
+//                .andExpect(header().string("location", containsString("http://localhost/users/")));
+//
+//        verify(userService, times(1)).exists(user);
+//        verify(userService, times(1)).create(user);
+//        verifyNoMoreInteractions(userService);
+//    }
+//
+//    @Test
+//    public void test_create_user_fail_409_conflict() throws Exception {
+//        User user = new User("Daenerys Targaryen");
+//
+//        when(userService.exists(user)).thenReturn(true);
+//
+//        mockMvc.perform(
+//                post("/users")
+//                        .contentType(MediaType.APPLICATION_JSON)
+//                        .content(asJsonString(user)))
+//                .andExpect(status().isConflict());
+//
+//        verify(userService, times(1)).exists(user);
+//        verifyNoMoreInteractions(userService);
+//    }
+//
+//    // =========================================== Update Existing User ===================================
+//
+//    @Test
+//    public void test_update_user_success() throws Exception {
+//        User user = new User(1, "Arya Stark");
+//
+//        when(userService.findById(user.getId())).thenReturn(user);
+//        doNothing().when(userService).update(user);
+//
+//        mockMvc.perform(
+//                put("/users/{id}", user.getId())
+//                        .contentType(MediaType.APPLICATION_JSON)
+//                        .content(asJsonString(user)))
+//                .andExpect(status().isOk());
+//
+//        verify(userService, times(1)).findById(user.getId());
+//        verify(userService, times(1)).update(user);
+//        verifyNoMoreInteractions(userService);
+//    }
+//
+//    @Test
+//    public void test_update_user_fail_404_not_found() throws Exception {
+//        User user = new User(UNKNOWN_ID, "user not found");
+//
+//        when(userService.findById(user.getId())).thenReturn(null);
+//
+//        mockMvc.perform(
+//                put("/users/{id}", user.getId())
+//                        .contentType(MediaType.APPLICATION_JSON)
+//                        .content(asJsonString(user)))
+//                .andExpect(status().isNotFound());
+//
+//        verify(userService, times(1)).findById(user.getId());
+//        verifyNoMoreInteractions(userService);
+//    }
+//
+//    // =========================================== Delete User ============================================
+//
+//    @Test
+//    public void test_delete_user_success() throws Exception {
+//        User user = new User(1, "Arya Stark");
+//
+//        when(userService.findById(user.getId())).thenReturn(user);
+//        doNothing().when(userService).delete(user.getId());
+//
+//        mockMvc.perform(
+//                delete("/users/{id}", user.getId()))
+//                .andExpect(status().isOk());
+//
+//        verify(userService, times(1)).findById(user.getId());
+//        verify(userService, times(1)).delete(user.getId());
+//        verifyNoMoreInteractions(userService);
+//    }
+//
+//    @Test
+//    public void test_delete_user_fail_404_not_found() throws Exception {
+//        User user = new User(UNKNOWN_ID, "user not found");
+//
+//        when(userService.findById(user.getId())).thenReturn(null);
+//
+//        mockMvc.perform(
+//                delete("/users/{id}", user.getId()))
+//                .andExpect(status().isNotFound());
+//
+//        verify(userService, times(1)).findById(user.getId());
+//        verifyNoMoreInteractions(userService);
+//    }
+//
+//    // =========================================== CORS Headers ===========================================
+//
+//    @Test
+//    public void test_cors_headers() throws Exception {
+//        mockMvc.perform(get("/users"))
+//                .andExpect(header().string("Access-Control-Allow-Origin", "*"))
+//                .andExpect(header().string("Access-Control-Allow-Methods", "POST, GET, PUT, OPTIONS, DELETE"))
+//                .andExpect(header().string("Access-Control-Allow-Headers", "*"))
+//                .andExpect(header().string("Access-Control-Max-Age", "3600"));
+//    }
+//
+//    /*
+//     * converts a Java object into JSON representation
+//     */
+//    public static String asJsonString(final Object obj) {
+//        try {
+//            return new ObjectMapper().writeValueAsString(obj);
+//        } catch (Exception e) {
+//            throw new RuntimeException(e);
+//        }
+//    }
 }

@@ -1,13 +1,26 @@
 build:
-  test:
+  test-unit:
     image: tannv85/maven3.9-jdk8
     volumes:
       - target:/opt/tomcat/webapps
     commands:
-      - mvn surefire-report:report
+      - mvn clean site
+      - cp target/site/* .framgia-ci-reports/unit-test/
       - framgia-ci run
     when:
       event: [push, tag, pull_request]
+
+  test-unit:
+      image: tannv85/maven3.9-jdk8
+      volumes:
+        - target:/opt/tomcat/webapps
+      commands:
+        - mvn clean install
+        - mvn sonar:sonar
+        - cp target/site/* .framgia-ci-reports/coverage/
+        - framgia-ci run
+      when:
+        event: [push, tag, pull_request]
 
 compose:
   database:
