@@ -7,7 +7,6 @@ build:
       - mvn clean site
       - mkdir .framgia-ci-reports/unit-test/
       - cp -r target/site/* .framgia-ci-reports/unit-test/
-      - framgia-ci run
     when:
       event: [push, tag, pull_request]
 
@@ -20,7 +19,6 @@ build:
         - mvn sonar:sonar
         - mkdir .framgia-ci-reports/coverage/
         - cp -r target/site/* .framgia-ci-reports/coverage/
-        - framgia-ci run
       when:
         event: [push, tag, pull_request]
 
