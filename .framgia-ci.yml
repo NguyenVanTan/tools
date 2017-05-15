@@ -2,3 +2,5 @@ project_type: java
 test:
  mvn:
    ignore: true
+ command:
+   - ls -la .framgia-ci-reports
