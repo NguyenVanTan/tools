@@ -3,4 +3,4 @@ test:
  mvn:
    ignore: true
  command:
-   - ls -la .framgia-ci-reports
+   - mvn clean
