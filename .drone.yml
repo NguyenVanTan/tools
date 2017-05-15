@@ -6,12 +6,12 @@ build:
     commands:
       - mvn clean site
       - mkdir .framgia-ci-reports/unit-test/
-      - cp target/site/* .framgia-ci-reports/unit-test/
+      - cp -rf target/site/* .framgia-ci-reports/unit-test/
       - framgia-ci run
     when:
       event: [push, tag, pull_request]
 
-  test-unit:
+  test-intergard:
       image: tannv85/maven3.9-jdk8
       volumes:
         - target:/opt/tomcat/webapps
@@ -19,7 +19,7 @@ build:
         - mvn clean install
         - mvn sonar:sonar
         - mkdir .framgia-ci-reports/coverage/
-        - cp target/site/* .framgia-ci-reports/coverage/
+        - cp -rf target/site/* .framgia-ci-reports/coverage/
         - framgia-ci run
       when:
         event: [push, tag, pull_request]
